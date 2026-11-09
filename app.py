@@ -87,7 +87,7 @@ def analyze(img: Image.Image | None, progress=gr.Progress()):
         raise gr.Error("Please upload an MRI slice (PNG, JPG or TIF) or click an example.")
     progress(0.2, desc="Segmenting…")
     rgb = to_rgb256(img)
-    prob = predict_proba(MODEL, rgb)
+    prob = predict_proba(MODEL, rgb, size=META.get("img_size", 128))
     f, mask = extract(prob)
     progress(0.8, desc="Writing report…")
     name = Path(getattr(img, "filename", "") or "uploaded slice").name
