@@ -18,7 +18,7 @@ structured findings, writes a report, and answers questions about the scan with 
 - **Auto-generated report**: deterministic structured report (findings, impression, suggested next steps,
   limitations), downloadable as Markdown.
 - **"Ask NeuroBot about this scan"**: RAG over a curated knowledge base (`kb/`, NCI / WHO CNS5 / Radiopaedia /
-  FDA / dataset papers) with `all-MiniLM-L6-v2` embeddings + FAISS. Answers come from a Llama model on Groq
+  FDA / dataset papers) with `all-MiniLM-L6-v2` embeddings + FAISS. Answers come from an open-weight LLM on Groq (`openai/gpt-oss-120b` by default)
   and cite the retrieved passages, which are shown alongside.
 - **Works without an API key**: no key → retrieved passages + templated summary and an "LLM offline" badge.
 - **Polished Gradio UI**: teal medical theme, light/dark mode, one-click example scans from held-out test patients.
@@ -35,7 +35,7 @@ flowchart LR
     Q[User question] --> H[MiniLM embeddings]
     K[(kb/*.md<br/>NCI, WHO, Radiopaedia, FDA)] --> I[FAISS index]
     H --> I --> J[Top-k passages]
-    E --> L[Llama 3.3 via Groq<br/>OpenAI-compatible llm.py]
+    E --> L[gpt-oss-120b via Groq<br/>OpenAI-compatible llm.py]
     J --> L --> M[Cited answer + sources]
     J -. no API key .-> N[Templated answer<br/>from passages]
 ```
@@ -71,7 +71,7 @@ checkpoint with the best validation Dice (epoch 12, 0.877) is kept ([`results/tr
 
 ## Tech stack
 PyTorch · segmentation_models_pytorch (U-Net, VGG-19-BN encoder) · Kaggle GPU (training) · NumPy / SciPy ·
-sentence-transformers (all-MiniLM-L6-v2) · FAISS · OpenAI-compatible client (Groq Llama 3.3 / OpenAI / Ollama) · Gradio 6.
+sentence-transformers (all-MiniLM-L6-v2) · FAISS · OpenAI-compatible client (Groq gpt-oss-120b / OpenAI / Ollama) · Gradio 6.
 
 ## Quick start
 ```bash

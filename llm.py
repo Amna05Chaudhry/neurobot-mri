@@ -1,7 +1,7 @@
 """Tiny OpenAI-compatible LLM client.
 
 Configured from .env (see .env.example). Works with Groq (default, free key,
-Llama models), OpenAI, or a local Ollama server. If no key is set or the call
+gpt-oss / Qwen models), OpenAI, or a local Ollama server. If no key is set or the call
 fails, `chat()` returns None and callers fall back to templated answers.
 """
 from __future__ import annotations
@@ -14,7 +14,7 @@ load_dotenv()
 
 BASE_URL = os.getenv("LLM_BASE_URL", "https://api.groq.com/openai/v1")
 API_KEY = os.getenv("LLM_API_KEY", "")
-MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
+MODEL = os.getenv("LLM_MODEL", "openai/gpt-oss-120b")
 
 _client = None
 
@@ -33,7 +33,7 @@ def _get_client():
     return _client
 
 
-def chat(messages: list[dict], temperature: float = 0.2, max_tokens: int = 700) -> str | None:
+def chat(messages: list[dict], temperature: float = 0.2, max_tokens: int = 1200) -> str | None:
     """Return the model's reply, or None when the LLM is offline or errors."""
     if not available():
         return None

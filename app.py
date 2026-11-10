@@ -200,7 +200,7 @@ def about_md() -> str:
 3. **Report.** A deterministic, templated report summarises the findings and limitations.
 4. **RAG consultation.** Your question + the findings are embedded with `all-MiniLM-L6-v2`; the top
    passages from a curated knowledge base (NCI, WHO CNS5, Radiopaedia, FDA, dataset papers) are retrieved
-   with FAISS and given to a Llama model (Groq) that must cite them. Without an API key NeuroBot returns
+   with FAISS and given to an open-weight LLM on Groq (gpt-oss-120b) that must cite them. Without an API key NeuroBot returns
    the retrieved passages with a templated summary.
 
 ### Results
