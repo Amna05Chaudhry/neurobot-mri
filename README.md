@@ -123,7 +123,7 @@ Single 2-D slices, one public dataset of lower-grade gliomas only, no external v
 specific to tumour. Location assumes the radiological display convention. Not a medical device.
 
 ## Authors
-Built by **Amna Choudhri** (TODO: add the original GenAI-competition teammates' names/GitHub, if any).
+Built by **Amna Choudhri** ([@Amna05Chaudhry](https://github.com/Amna05Chaudhry)).
 
 ## License
 Code: MIT (see `LICENSE`). Dataset and derived weights: subject to the dataset's CC BY-NC-SA 4.0 licence.
