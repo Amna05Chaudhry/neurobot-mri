@@ -1,0 +1,51 @@
+{
+ "test_patients": 16,
+ "test_slices": 540,
+ "tumour_slices": 192,
+ "model": {
+  "encoder": "vgg19_bn",
+  "img_size": 256,
+  "epoch": 12,
+  "val": {
+   "global_dice": 0.8766853231054706
+  },
+  "seed": 42,
+  "trained_on": "Kaggle GPU"
+ },
+ "segmentation": {
+  "per_patient_volume_dice_mean": 0.8230814572213839,
+  "per_patient_volume_dice_median": 0.8605033652644041,
+  "per_patient_volume_iou_mean": 0.7153079078062201,
+  "tumour_slice_dice_mean": 0.8342327133722848,
+  "tumour_slice_iou_mean": 0.7426351622397777,
+  "global_pixel_dice": 0.8496970214862158,
+  "global_pixel_iou": 0.7386723648964574
+ },
+ "slice_detection": {
+  "sensitivity": 0.9947916666666666,
+  "specificity": 0.8620689655172413,
+  "accuracy": 0.9092592592592592,
+  "tp": 191,
+  "tn": 300,
+  "fp": 48,
+  "fn": 1
+ },
+ "per_patient_volume_dice": {
+  "TCGA_CS_4942_19970222": 0.904,
+  "TCGA_CS_6188_20010812": 0.5,
+  "TCGA_CS_6669_20020102": 0.869,
+  "TCGA_DU_6400_19830518": 0.936,
+  "TCGA_DU_6407_19860514": 0.93,
+  "TCGA_DU_7008_19830723": 0.847,
+  "TCGA_DU_8165_19970205": 0.698,
+  "TCGA_DU_A5TS_19970726": 0.931,
+  "TCGA_DU_A5TU_19980312": 0.658,
+  "TCGA_EZ_7264_20010816": 0.893,
+  "TCGA_FG_5964_20010511": 0.795,
+  "TCGA_FG_6692_20020606": 0.767,
+  "TCGA_FG_7637_20000922": 0.919,
+  "TCGA_HT_7473_19970826": 0.852,
+  "TCGA_HT_8105_19980826": 0.741,
+  "TCGA_HT_8114_19981030": 0.93
+ }
+}

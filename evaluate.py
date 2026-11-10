@@ -50,7 +50,7 @@ def main() -> None:
 
     imgs = np.stack([np.asarray(Image.open(p["image"]).convert("RGB")) for p in pairs])
     gts = np.stack([np.asarray(Image.open(p["mask"]).convert("L")) > 127 for p in pairs])
-    probs = np.concatenate([predict_batch(model, imgs[i:i + 32], size) for i in range(0, len(imgs), 32)])
+    probs = np.concatenate([predict_batch(model, imgs[i:i + 8], size) for i in range(0, len(imgs), 8)])
     preds = np.stack([clean_mask(pr) for pr in probs])
 
     inter = (preds & gts).sum()

@@ -1,0 +1,161 @@
+{
+ "source": "kaggle/neurobot_train_kaggle.ipynb, Kaggle GPU T4, 256 px, batch 16, AdamW 3e-4 OneCycle, BCE+Dice",
+ "kaggle_quick_test_check": {
+  "test_patients": 16,
+  "per_patient_volume_dice_mean": 0.8230808572816133,
+  "tumour_slice_dice_mean": 0.8342383040936183,
+  "global_pixel_dice": 0.8497286265954733
+ },
+ "log": [
+  {
+   "epoch": 1,
+   "loss": 1.6172,
+   "val_global_dice": 0.1132
+  },
+  {
+   "epoch": 2,
+   "loss": 1.2147,
+   "val_global_dice": 0.642
+  },
+  {
+   "epoch": 3,
+   "loss": 0.953,
+   "val_global_dice": 0.6813
+  },
+  {
+   "epoch": 4,
+   "loss": 0.7784,
+   "val_global_dice": 0.6269
+  },
+  {
+   "epoch": 5,
+   "loss": 0.6387,
+   "val_global_dice": 0.7432
+  },
+  {
+   "epoch": 6,
+   "loss": 0.5493,
+   "val_global_dice": 0.8482
+  },
+  {
+   "epoch": 7,
+   "loss": 0.5108,
+   "val_global_dice": 0.8526
+  },
+  {
+   "epoch": 8,
+   "loss": 0.5006,
+   "val_global_dice": 0.8047
+  },
+  {
+   "epoch": 9,
+   "loss": 0.4821,
+   "val_global_dice": 0.8389
+  },
+  {
+   "epoch": 10,
+   "loss": 0.4695,
+   "val_global_dice": 0.8567
+  },
+  {
+   "epoch": 11,
+   "loss": 0.4589,
+   "val_global_dice": 0.8458
+  },
+  {
+   "epoch": 12,
+   "loss": 0.4473,
+   "val_global_dice": 0.8767
+  },
+  {
+   "epoch": 13,
+   "loss": 0.4556,
+   "val_global_dice": 0.8082
+  },
+  {
+   "epoch": 14,
+   "loss": 0.4161,
+   "val_global_dice": 0.7774
+  },
+  {
+   "epoch": 15,
+   "loss": 0.3683,
+   "val_global_dice": 0.6175
+  },
+  {
+   "epoch": 16,
+   "loss": 0.3612,
+   "val_global_dice": 0.8283
+  },
+  {
+   "epoch": 17,
+   "loss": 0.3159,
+   "val_global_dice": 0.7951
+  },
+  {
+   "epoch": 18,
+   "loss": 0.3428,
+   "val_global_dice": 0.7462
+  },
+  {
+   "epoch": 19,
+   "loss": 0.2945,
+   "val_global_dice": 0.8267
+  },
+  {
+   "epoch": 20,
+   "loss": 0.3342,
+   "val_global_dice": 0.763
+  },
+  {
+   "epoch": 21,
+   "loss": 0.2694,
+   "val_global_dice": 0.7957
+  },
+  {
+   "epoch": 22,
+   "loss": 0.2545,
+   "val_global_dice": 0.823
+  },
+  {
+   "epoch": 23,
+   "loss": 0.2456,
+   "val_global_dice": 0.8147
+  },
+  {
+   "epoch": 24,
+   "loss": 0.2143,
+   "val_global_dice": 0.8319
+  },
+  {
+   "epoch": 25,
+   "loss": 0.1956,
+   "val_global_dice": 0.8333
+  },
+  {
+   "epoch": 26,
+   "loss": 0.1878,
+   "val_global_dice": 0.8424
+  },
+  {
+   "epoch": 27,
+   "loss": 0.1723,
+   "val_global_dice": 0.8504
+  },
+  {
+   "epoch": 28,
+   "loss": 0.1717,
+   "val_global_dice": 0.8518
+  },
+  {
+   "epoch": 29,
+   "loss": 0.1714,
+   "val_global_dice": 0.8523
+  },
+  {
+   "epoch": 30,
+   "loss": 0.1648,
+   "val_global_dice": 0.8519
+  }
+ ]
+}
