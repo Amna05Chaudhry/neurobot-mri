@@ -28,6 +28,20 @@ AMBER = (245, 158, 11)
 
 print("Loading segmentation model...")
 MODEL, META = load_model(WEIGHTS)
+
+try:  # Hugging Face ZeroGPU Space: it refuses to start without a @spaces.GPU function.
+    import spaces  # Inference stays on CPU (~0.5 s per slice), so this placeholder is never called.
+
+    @spaces.GPU
+    def _zerogpu_placeholder() -> None:
+        return None
+except ImportError:  # local run
+    pass
+
+
+def segment(rgb: np.ndarray) -> np.ndarray:
+    return predict_proba(MODEL, rgb, size=META.get("img_size", 128))
+
 print("Building knowledge-base index...")
 KB = KnowledgeBase()
 METRICS = json.loads(METRICS_PATH.read_text()) if METRICS_PATH.exists() else None
@@ -87,7 +101,7 @@ def analyze(img: Image.Image | None, progress=gr.Progress()):
         raise gr.Error("Please upload an MRI slice (PNG, JPG or TIF) or click an example.")
     progress(0.2, desc="Segmenting…")
     rgb = to_rgb256(img)
-    prob = predict_proba(MODEL, rgb, size=META.get("img_size", 128))
+    prob = segment(rgb)
     f, mask = extract(prob)
     progress(0.8, desc="Writing report…")
     name = Path(getattr(img, "filename", "") or "uploaded slice").name

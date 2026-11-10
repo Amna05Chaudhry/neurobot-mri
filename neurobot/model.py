@@ -54,7 +54,7 @@ def to_rgb256(img: Image.Image) -> np.ndarray:
 def predict_proba(model: torch.nn.Module, rgb256: np.ndarray, size: int = IMG_SIZE) -> np.ndarray:
     """Return a 256x256 float probability map for one RGB slice."""
     small = np.asarray(Image.fromarray(rgb256).resize((size, size), Image.BILINEAR))
-    x = torch.from_numpy(normalize(small)).unsqueeze(0)
+    x = torch.from_numpy(normalize(small)).unsqueeze(0).to(next(model.parameters()).device)
     logits = model(x)
     up = torch.nn.functional.interpolate(logits, size=(256, 256), mode="bilinear", align_corners=False)
-    return torch.sigmoid(up)[0, 0].numpy()
+    return torch.sigmoid(up)[0, 0].float().cpu().numpy()

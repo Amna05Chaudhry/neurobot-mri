@@ -8,6 +8,8 @@ structured findings, writes a report, and answers questions about the scan with 
 >
 > ⚠️ **Research demo, not for clinical use.**
 
+**Live demo:** [huggingface.co/spaces/AmnaChoudhri/neurobot-mri](https://huggingface.co/spaces/AmnaChoudhri/neurobot-mri) (free tier, the first load after a pause takes about a minute).
+
 ![NeuroBot screenshot](docs/screenshot.png)
 
 ## Features
