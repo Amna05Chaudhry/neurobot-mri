@@ -11,6 +11,7 @@ from .data import normalize
 
 ROOT = Path(__file__).resolve().parents[1]
 WEIGHTS = ROOT / "weights" / "neurobot_unet_vgg19.pt"
+WEIGHTS_URL = "https://github.com/Amna05Chaudhry/neurobot-mri/raw/main/weights/neurobot_unet_vgg19.pt"
 ENCODER = "vgg19_bn"
 IMG_SIZE = 128  # training/inference resolution (CPU budget); outputs are upsampled
 
@@ -30,6 +31,12 @@ def save_weights(model: torch.nn.Module, path: Path = WEIGHTS, meta: dict | None
 
 
 def load_model(path: Path = WEIGHTS) -> tuple[torch.nn.Module, dict]:
+    if not path.exists():  # e.g. the Hugging Face Space, which fetches the released weights from GitHub
+        import urllib.request
+
+        path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"downloading weights from {WEIGHTS_URL}")
+        urllib.request.urlretrieve(WEIGHTS_URL, path)
     ckpt = torch.load(path, map_location="cpu", weights_only=False)
     model = build_model(pretrained=False)
     model.load_state_dict({k: (v.float() if v.is_floating_point() else v)

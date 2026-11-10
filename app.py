@@ -268,5 +268,6 @@ with gr.Blocks(title="NeuroBot · Brain MRI AI") as demo:
 
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name=os.getenv("HOST", "127.0.0.1"),
+    # Hugging Face Spaces sets GRADIO_SERVER_NAME=0.0.0.0; locally we stay on 127.0.0.1.
+    demo.queue().launch(server_name=os.getenv("HOST") or os.getenv("GRADIO_SERVER_NAME", "127.0.0.1"),
                         server_port=int(os.getenv("PORT", "7860")), theme=theme, css=CSS)
