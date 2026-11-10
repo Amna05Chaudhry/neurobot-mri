@@ -33,7 +33,7 @@ class Chunk:
     doc: str
     title: str
     text: str
-    sources: list[str]
+    sources: list[tuple[str, str]]
 
 
 def load_chunks(kb_dir: Path = KB_DIR) -> list[Chunk]:
@@ -43,11 +43,22 @@ def load_chunks(kb_dir: Path = KB_DIR) -> list[Chunk]:
         body, _, src = raw.partition("\nSources:")
         if not src:
             body, _, src = raw.partition("\nSource:")
-        sources = re.findall(r"https?://\S+", src)
+        sources = []  # (short name, url) from lines like "- NCI, Some page: https://..."
+        for line in src.splitlines():
+            m = re.search(r"https?://\S+", line)
+            if m:
+                name = line[:m.start()].strip(" -:.").strip()
+                sources.append((name if len(name) <= 70 else name[:67] + "...", m.group(0)))
         lines = body.strip().splitlines()
         title = lines[0].lstrip("# ").strip() if lines and lines[0].startswith("#") else path.stem
         paras = [p.strip() for p in "\n".join(lines[1:]).split("\n\n") if p.strip()]
-        for p in paras:
+        merged: list[str] = []
+        for p in paras:  # attach lead-in lines ("... include:") to the list that follows
+            if merged and merged[-1].endswith(":"):
+                merged[-1] += "\n" + p
+            else:
+                merged.append(p)
+        for p in merged:
             chunks.append(Chunk(doc=path.name, title=title, text=" ".join(p.split()), sources=sources))
     return chunks
 
@@ -78,7 +89,7 @@ def format_context(hits: list[tuple[Chunk, float]]) -> str:
 def sources_markdown(hits: list[tuple[Chunk, float]]) -> str:
     out = []
     for n, (c, s) in enumerate(hits, 1):
-        links = ", ".join(f"[{u.split('/')[2]}]({u})" for u in c.sources[:3])
+        links = " · ".join(f"[{name or u.split('/')[2]}]({u})" for name, u in c.sources[:3])
         snippet = c.text if len(c.text) < 260 else c.text[:257] + "..."
         out.append(f"**[{n}] {c.title}** · `{c.doc}` · relevance {s:.2f}  \n{snippet}  \n{links}")
     return "\n\n".join(out)
@@ -88,8 +99,13 @@ def _fallback_answer(question: str, findings_text: str, hits: list[tuple[Chunk, 
     lines = ["**Scan summary.** " + findings_text, "",
              "**Most relevant knowledge-base passages for your question:**"]
     for n, (c, _) in enumerate(hits[:3], 1):
-        first = re.split(r"(?<=[.!?])\s", c.text)
-        lines.append(f"- {' '.join(first[:2])} [{n}]")
+        text = re.sub(r"(?:^|\s)\d+\.\s", " ", c.text).strip()  # drop "1. 2." list markers
+        picked = ""
+        for sent in re.split(r"(?<=[.!?:])\s", text):
+            picked = f"{picked} {sent}".strip()
+            if len(picked) >= 240:
+                break
+        lines.append(f"- {picked} [{n}]")
     lines += ["", "_LLM offline: this answer is assembled from retrieved passages without "
               "generation. Please discuss the scan with the treating clinician._"]
     return "\n".join(lines)

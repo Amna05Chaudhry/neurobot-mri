@@ -8,3 +8,4 @@ data/
 flagged/
 *.part
 .ipynb_checkpoints/
+.claude/
