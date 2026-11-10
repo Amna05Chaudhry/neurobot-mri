@@ -98,13 +98,17 @@ def _fallback_answer(question: str, findings_text: str, hits: list[tuple[Chunk, 
 def answer(kb: KnowledgeBase, question: str, findings_text: str,
            history: list[dict] | None = None, k: int = 4) -> tuple[str, list[tuple[Chunk, float]], bool]:
     """Return (answer_markdown, retrieved hits, used_llm)."""
-    hits = kb.search(f"{question} {findings_text}", k=k)
+    hits = kb.search(question, k=k)  # findings go to the LLM, not the retriever (they swamp short questions)
     user = (f"Scan findings (from the AI model, single axial slice):\n{findings_text}\n\n"
             f"Knowledge-base passages:\n{format_context(hits)}\n\nQuestion: {question}")
     msgs = [{"role": "system", "content": SYSTEM}]
     for turn in (history or [])[-4:]:
-        if turn.get("role") in ("user", "assistant") and isinstance(turn.get("content"), str):
-            msgs.append({"role": turn["role"], "content": turn["content"]})
+        content = turn.get("content")
+        if isinstance(content, list):  # Gradio 6 structured content
+            content = " ".join(c.get("text", "") for c in content if isinstance(c, dict))
+        if turn.get("role") in ("user", "assistant") and isinstance(content, str) and content:
+            content = re.sub(r"<span class='nb-offline'>.*?</span>", "", content).strip()
+            msgs.append({"role": turn["role"], "content": content})
     msgs.append({"role": "user", "content": user})
     reply = llm.chat(msgs)
     if reply:

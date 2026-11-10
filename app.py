@@ -212,7 +212,7 @@ LGG Segmentation Dataset: Buda, Saha & Mazurowski (2019), *Computers in Biology 
 """
 
 
-with gr.Blocks(theme=theme, css=CSS, title="NeuroBot · Brain MRI AI") as demo:
+with gr.Blocks(title="NeuroBot · Brain MRI AI") as demo:
     scan_state = gr.State(None)
     gr.HTML(HEADER)
     with gr.Tabs():
@@ -237,8 +237,9 @@ with gr.Blocks(theme=theme, css=CSS, title="NeuroBot · Brain MRI AI") as demo:
                                       "scan-specific answers.")
             with gr.Row(equal_height=False):
                 with gr.Column(scale=7):
-                    bot = gr.Chatbot(type="messages", height=430, label="NeuroBot",
-                                     avatar_images=(None, None), show_copy_button=True)
+                    bot = gr.Chatbot(height=430, label="NeuroBot", buttons=["copy"],
+                                     placeholder="Ask about the current scan, MRI sequences, next steps or "
+                                                 "lower-grade glioma. Answers cite the knowledge base.")
                     with gr.Row():
                         msg = gr.Textbox(placeholder="e.g. What does a left anterior FLAIR lesion mean?",
                                          show_label=False, scale=8, container=False)
@@ -268,4 +269,4 @@ with gr.Blocks(theme=theme, css=CSS, title="NeuroBot · Brain MRI AI") as demo:
 
 if __name__ == "__main__":
     demo.queue().launch(server_name=os.getenv("HOST", "127.0.0.1"),
-                        server_port=int(os.getenv("PORT", "7860")))
+                        server_port=int(os.getenv("PORT", "7860")), theme=theme, css=CSS)
