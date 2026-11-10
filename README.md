@@ -64,7 +64,7 @@ checkpoint with the best validation Dice (epoch 12, 0.877) is kept ([`results/tr
 
 ![Test-set examples: input, ground truth, prediction](docs/test_examples.png)
 
-<details><summary>"Ask NeuroBot" tab (offline mode: retrieved passages + sources)</summary>
+<details><summary>"Ask NeuroBot" tab (LLM answer with inline citations and the retrieved sources)</summary>
 
 ![Chat tab](docs/chat.png)
 </details>

@@ -128,5 +128,6 @@ def answer(kb: KnowledgeBase, question: str, findings_text: str,
     msgs.append({"role": "user", "content": user})
     reply = llm.chat(msgs)
     if reply:
+        reply = re.sub(r"【\s*(\d+)[^】]*】", r"[\1]", reply)  # gpt-oss style 【1】 -> [1]
         return reply, hits, True
     return _fallback_answer(question, findings_text, hits), hits, False
